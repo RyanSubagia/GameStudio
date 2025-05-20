@@ -4591,6 +4591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 260485654}
   - component: {fileID: 260485655}
+  - component: {fileID: 260485656}
   m_Layer: 0
   m_Name: OutOfBoundCollider
   m_TagString: Out
@@ -4606,7 +4607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260485653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 0}
+  m_LocalPosition: {x: -8.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4639,6 +4640,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 6}
   m_EdgeRadius: 0
+--- !u!114 &260485656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260485653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b85b42f41b215d458a4941a0bf8dd09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSystem: {fileID: 1669589384}
 --- !u!1 &425194638
 GameObject:
   m_ObjectHideFlags: 0
@@ -6191,7 +6205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.2, y: 0.15}
-  m_AnchoredPosition: {x: 141.07005, y: 308.29}
+  m_AnchoredPosition: {x: 141.07, y: 283.67}
   m_SizeDelta: {x: -37.86, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1487030760
@@ -6785,8 +6799,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.15}
   m_AnchorMax: {x: 0.1, y: 0.85}
-  m_AnchoredPosition: {x: 86.82999, y: -154.14001}
-  m_SizeDelta: {x: 173.68, y: -199.49}
+  m_AnchoredPosition: {x: 93.04999, y: -144.29001}
+  m_SizeDelta: {x: 186.12, y: -179.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850811696
 MonoBehaviour:

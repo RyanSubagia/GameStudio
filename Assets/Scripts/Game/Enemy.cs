@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public float attackInterval;
     Coroutine attackOrder;
     Tower detectedTower;
+    public HealthSystem healthsystem;
 
     void Update()
     {
@@ -74,10 +75,22 @@ public class Enemy : MonoBehaviour
         if (detectedTower)
             return;
 
-        if(collision.tag == "Tower")
+        if (collision.tag == "Tower")
         {
             detectedTower = collision.GetComponent<Tower>();
             attackOrder = StartCoroutine(Attack());
-        }   
-    }    
+        }
+
+        //if (collision.CompareTag("Tower") && !detectedTower)
+        //{
+        //    detectedTower = collision.GetComponent<Tower>();
+        //    attackOrder = StartCoroutine(Attack());
+        //}
+        //else if (collision.CompareTag("Base"))
+        //{
+        //    // This is where the enemy reaches the player's base
+        //    healthsystem.LoseHealth();
+        //    Destroy(gameObject);
+        //}
+    }
 }
