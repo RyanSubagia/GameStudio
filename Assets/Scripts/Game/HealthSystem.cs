@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
@@ -8,7 +11,9 @@ public class HealthSystem : MonoBehaviour
     //The default value of the health count (used for init)
     public int defaultHealthCount;
     //Current health count
-    public int healthCount;    
+    public int healthCount;
+    [SerializeField] private TMP_Text txtTitle;
+    [SerializeField] private GameObject gameOverCanvas;
 
 
     //Init the health system (reset the health count)
@@ -36,7 +41,16 @@ public class HealthSystem : MonoBehaviour
         if(healthCount<1)
         {
             Debug.Log("You lost");
+            gameOverCanvas.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+
             //Call some reset values and stop the game from the manager
         }
+    }
+
+    public void PlayAgain()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
     }
 }
