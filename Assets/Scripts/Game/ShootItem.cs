@@ -10,11 +10,14 @@ public class ShootItem : MonoBehaviour
     //speed
     public float flySpeed,rotateSpeed;
 
+    Enemy target;
+
     //METHODS
     //Init
-    public void Init(int dmg)
+    public void Init(int dmg, Enemy target)
     {
-        damage = dmg;
+        this.damage = dmg;
+        this.target = target;
     }
     //Trigger with enemy
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,7 +25,7 @@ public class ShootItem : MonoBehaviour
         if(collision.tag=="Enemy")
         {
             Debug.Log("Shot the enemy");
-            collision.GetComponent<Enemy>().LoseHealth();
+            collision.GetComponent<Enemy>().LoseHealth(this.damage);
             Destroy(gameObject);
         }
         if (collision.tag == "Out")
@@ -42,7 +45,21 @@ public class ShootItem : MonoBehaviour
     }
     void FlyForward()
     {
-        transform.Translate(transform.right * flySpeed * Time.deltaTime);
+        if (target != null)
+        {
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            transform.position += direction * flySpeed * Time.deltaTime;
+
+            // Opsional: rotasi proyektil agar menghadap target saat bergerak
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            graphics.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
+        else
+        {
+            // Jika target hilang/mati, proyektil bisa hancur atau lanjut lurus
+            transform.Translate(transform.right * flySpeed * Time.deltaTime); // Perilaku fallback
+                                                                              // Atau Destroy(gameObject);
+        }
     }
 
 }

@@ -10,9 +10,10 @@ public class CostDisplayer : MonoBehaviour
 
     //METHODS
     //Init (Fetch the value from the spawner towers list>
+
     void Start()
     {
-        towerCost = GameManager.instance.spawner.TowerCost(towerID);
+        towerCost = GameManager.instance.towerSpawner.TowerCost(towerID);
         GetComponent<UnityEngine.UI.Text>().text = towerCost.ToString();
     }
 }

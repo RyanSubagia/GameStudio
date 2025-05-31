@@ -3,8 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-   public void ChangeScene(string sceneName)
+   public void ChangeScene()
    {
-       SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetInt("CurrentLevelIndex", 0);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("Level1");
    }
 }
