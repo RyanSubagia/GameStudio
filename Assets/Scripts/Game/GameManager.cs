@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -21,82 +22,50 @@ public class GameManager : MonoBehaviour
 
     public GameObject winPanel;
 
+    public AudioClip winSoundEffect;             
+    private AudioSource sfxAudioSource;          
+    public AudioSource backgroundMusicPlayer;
+
     void Awake()
     {
-        // Pola Singleton yang lebih aman
+        // Pola Singleton
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(gameObject); // Jika GameManager harus ada terus antar scene
+            // DontDestroyOnLoad(gameObject); 
         }
-        else if (instance != this) // Jika sudah ada instance lain dan itu bukan diri sendiri
+        else if (instance != this)
         {
-            Destroy(gameObject); // Hancurkan diri sendiri agar hanya ada satu instance
+            Destroy(gameObject);
             return;
         }
 
-        // Muat level index saat ini (default ke 0 jika belum ada)
-        currentLevelIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
-        // Pastikan currentLevelIndex tidak melebihi jumlah level yang ada
-        if (currentLevelIndex >= levelSceneNames.Length)
+        // Dapatkan komponen AudioSource pada GameObject ini untuk SFX
+        sfxAudioSource = GetComponent<AudioSource>();
+        if (sfxAudioSource != null)
         {
-            currentLevelIndex = 0; // Kembali ke level pertama atau ke menu utama
-            PlayerPrefs.SetInt("CurrentLevelIndex", currentLevelIndex);
-            // SceneManager.LoadScene("MainMenu"); // Contoh jika melebihi batas
-            // return;
+            sfxAudioSource.playOnAwake = false; // Pastikan tidak play on awake
+            sfxAudioSource.loop = false;        // Pastikan tidak loop
+        }
+        else
+        {
+            Debug.LogError("GameManager memerlukan komponen AudioSource untuk SFX, tetapi tidak ditemukan!", this);
         }
 
+        // Muat level index saat ini
+        currentLevelIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
+        if (currentLevelIndex >= levelSceneNames.Length)
+        {
+            currentLevelIndex = 0;
+            PlayerPrefs.SetInt("CurrentLevelIndex", currentLevelIndex);
+        }
 
         if (winPanel != null) winPanel.SetActive(false);
-        // if (losePanel != null) losePanel.SetActive(false);
-
-        // Set Time.timeScale ke 1 setiap kali scene dimulai (penting jika sebelumnya di-set ke 0)
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // Pastikan waktu berjalan normal saat scene dimulai
     }
 
     void Start()
     {
-        // Inisialisasi HealthSystem dan CurrencySystem
-        // Cara Anda memanggil GetComponent().Init() mengasumsikan HealthSystem & CurrencySystem
-        // adalah komponen yang terpasang pada GameObject yang sama dengan GameManager ini.
-        // Jika field publik 'health' dan 'currency' sudah Anda assign di Inspector,
-        // pemanggilan GetComponent tidak lagi wajib, Anda bisa langsung:
-        // if (health != null) health.Init();
-        // if (currency != null) currency.Init();
-
-        //HealthSystem hs = GetComponent<HealthSystem>();
-        //if (hs != null)
-        //{
-        //    hs.Init();
-        //}
-        //else if (health != null) // Fallback jika diassign via public field
-        //{
-        //    health.Init();
-        //}
-        //else
-        //{
-        //    Debug.LogError("HealthSystem tidak ditemukan atau tidak di-assign pada GameManager!");
-        //}
-
-        //CurrencySystem cs = GetComponent<CurrencySystem>();
-        //if (cs != null)
-        //{
-        //    cs.Init();
-        //}
-        //else if (currency != null) // Fallback jika diassign via public field
-        //{
-        //    currency.Init();
-        //}
-        //else
-        //{
-        //    Debug.LogError("CurrencySystem tidak ditemukan atau tidak di-assign pada GameManager!");
-        //}
-
-        //StartCoroutine(WaveStartDelay());
-        // Inisialisasi berdasarkan level saat ini
-        // Inisialisasi HealthSystem dan CurrencySystem
-        // (Saya akan menggunakan blok kode inisialisasi yang tidak di-comment dari skrip Anda)
-
         // Inisialisasi berdasarkan level saat ini
         if (currentLevelIndex < enemiesToWinPerLevel.Length)
         {
@@ -158,51 +127,51 @@ public class GameManager : MonoBehaviour
 
     void TriggerWinCondition()
     {
-        //Debug.Log("SELAMAT! ANDA TELAH MEMENANGKAN PERMAINAN!");
-
-        //// ----- Implementasikan logika kemenangan Anda di sini -----
-        //// Contoh:
-        //// 1. Menghentikan waktu permainan (pause)
-        //Time.timeScale = 0f;
-
-        //// 2. Menampilkan UI Panel Kemenangan
-        //if (winPanel != null)
-        //{
-        //    winPanel.SetActive(true);
-        //}
-
-        //// 3. Memuat Scene Kemenangan (pastikan scene sudah ada di Build Settings)
-        //// SceneManager.LoadScene("NamaSceneKemenangan");
-
-        //// 4. Menghentikan spawning musuh lebih lanjut
-        ////    Anda perlu cara untuk mengakses spawner Anda dan memberitahunya untuk berhenti.
-        ////    Misalnya, jika EnemySpawner memiliki method StopSpawning():
-        //if (EnemySpawner.instance != null)
-        //{
-        //    EnemySpawner.instance.StopSpawning();
-        //}
-        //else
-        //{
-        //    Debug.LogError("EnemySpawner.instance tidak ditemukan untuk menghentikan spawning!");
-        //}
-
         Debug.Log("LEVEL " + (currentLevelIndex + 1) + " SELESAI!");
         Time.timeScale = 0f; // Hentikan permainan
 
+        // --- HENTIKAN MUSIK LATAR ---
+        if (backgroundMusicPlayer != null)
+        {
+            backgroundMusicPlayer.Stop();
+            Debug.Log("Musik latar dihentikan.");
+        }
+        else
+        {
+            Debug.LogWarning("Referensi 'backgroundMusicPlayer' (AudioSource) belum di-assign di GameManager. Tidak bisa menghentikan musik latar.");
+        }
+        // -----------------------------
+
+        // --- MAINKAN EFEK SUARA KEMENANGAN ---
+        if (sfxAudioSource != null && winSoundEffect != null)
+        {
+            sfxAudioSource.PlayOneShot(winSoundEffect);
+        }
+        else
+        {
+            if (sfxAudioSource == null) Debug.LogWarning("sfxAudioSource pada GameManager tidak ditemukan untuk memainkan suara kemenangan.");
+            if (winSoundEffect == null) Debug.LogWarning("AudioClip 'winSoundEffect' belum di-assign di GameManager Inspector.");
+        }
+        // -----------------------------------
+
+        // Tampilkan panel kemenangan
         if (winPanel != null)
         {
             winPanel.SetActive(true);
-            // Di sini Anda bisa memperbarui teks di winPanel untuk menunjukkan level mana yang selesai, dll.
-            // Anda juga perlu mengkonfigurasi tombol di winPanel (lihat poin III)
         }
         else
         {
             Debug.LogWarning("Win Panel belum di-assign di GameManager Inspector!");
         }
 
+        // Hentikan spawning musuh
         if (EnemySpawner.instance != null)
         {
-            EnemySpawner.instance.StopSpawning();
+            EnemySpawner.instance.StopSpawning(); // Pastikan method ini ada di EnemySpawner.cs
+        }
+        else
+        {
+            Debug.LogError("EnemySpawner.instance tidak ditemukan untuk menghentikan spawning!");
         }
     }
     public void GoToNextLevel()
