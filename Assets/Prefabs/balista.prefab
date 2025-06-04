@@ -212,7 +212,7 @@ MonoBehaviour:
   arrowDamage: 1
   prefab_Arrow: {fileID: 1282590824706437793, guid: a4ae5901c0bbf1a49ad5ece34d01201e,
     type: 3}
-  interval: 5
+  interval: 3
   shootPoint: {fileID: 1792733198941781391}
 --- !u!95 &3530736981607674701
 Animator:
