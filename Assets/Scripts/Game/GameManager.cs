@@ -1,38 +1,51 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI; // Diperlukan untuk Button
 using UnityEngine.SceneManagement;
+using System.Collections; // Diperlukan untuk IEnumerator
 
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    //void Awake() { instance = this; }
 
+    [Header("System References")]
     public Spawner towerSpawner;
     public HealthSystem health;
     public CurrencySystem currency;
 
+    [Header("Level Management")]
     public static int currentLevelIndex = 0;
     public int[] enemiesToWinPerLevel = { 15, 25, 35 };
-
     public string[] levelSceneNames = { "Level1", "Level2", "Level3" };
 
-    private int enemiesKilled = 0;
-    private int enemiesToWin;
+    private int enemiesKilledThisLevel = 0;
+    private int enemiesToWinThisLevel;
 
+    [Header("UI Panels")]
     public GameObject winPanel;
+    public GameObject gameOverPanel;
 
-    public AudioClip winSoundEffect;             
-    private AudioSource sfxAudioSource;          
+    [Header("Audio Settings")]
+    public AudioClip winSoundEffect;
+    public AudioClip loseSoundEffect;
+    public AudioClip nuclearExplosionSound;
     public AudioSource backgroundMusicPlayer;
+    private AudioSource sfxAudioSource;
+
+    // --- Pengaturan untuk Bom Nuklir ---
+    [Header("Nuclear Bomb Settings")]
+    public Button nuclearBombButton;
+    public int nuclearBombCost = 100;
+    public GameObject nuclearExplosionAnimationPrefab; // Prefab animasi ledakan dari sprite sheet
+    public Transform nuclearExplosionSpawnPoint;   // Titik munculnya animasi ledakan sprite sheet
+    // public Animator screenFlashAnimator;        // << DIHAPUS
+    // ------------------------------------
 
     void Awake()
     {
-        // Pola Singleton
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(gameObject); 
         }
         else if (instance != this)
         {
@@ -40,86 +53,88 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Dapatkan komponen AudioSource pada GameObject ini untuk SFX
         sfxAudioSource = GetComponent<AudioSource>();
         if (sfxAudioSource != null)
         {
-            sfxAudioSource.playOnAwake = false; // Pastikan tidak play on awake
-            sfxAudioSource.loop = false;        // Pastikan tidak loop
+            sfxAudioSource.playOnAwake = false;
+            sfxAudioSource.loop = false;
         }
         else
         {
-            Debug.LogError("GameManager memerlukan komponen AudioSource untuk SFX, tetapi tidak ditemukan!", this);
-        }
-
-        // Muat level index saat ini
-        currentLevelIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
-        if (currentLevelIndex >= levelSceneNames.Length)
-        {
-            currentLevelIndex = 0;
-            PlayerPrefs.SetInt("CurrentLevelIndex", currentLevelIndex);
+            Debug.LogError("GameManager memerlukan komponen AudioSource untuk SFX!", this);
         }
 
         if (winPanel != null) winPanel.SetActive(false);
-        Time.timeScale = 1f; // Pastikan waktu berjalan normal saat scene dimulai
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+
+        Time.timeScale = 1f;
+
+        if (nuclearBombButton != null)
+        {
+            nuclearBombButton.onClick.AddListener(TryActivateNuclearBomb);
+        }
     }
 
     void Start()
     {
-        // Inisialisasi berdasarkan level saat ini
+        if (currentLevelIndex < 0 || currentLevelIndex >= levelSceneNames.Length)
+        {
+            Debug.LogError($"currentLevelIndex ({currentLevelIndex}) di luar batas untuk levelSceneNames. Reset ke 0.");
+            currentLevelIndex = 0;
+        }
+
         if (currentLevelIndex < enemiesToWinPerLevel.Length)
         {
-            enemiesToWin = enemiesToWinPerLevel[currentLevelIndex]; // Benar: set target menang untuk level ini
+            enemiesToWinThisLevel = enemiesToWinPerLevel[currentLevelIndex];
         }
         else
         {
-            Debug.LogError("Pengaturan enemiesToWinPerLevel tidak cukup untuk level saat ini: " + currentLevelIndex);
-            enemiesToWin = 9999;
+            Debug.LogError("Pengaturan enemiesToWinPerLevel tidak cukup untuk level saat ini: " + currentLevelIndex + ". Default ke 9999.");
+            enemiesToWinThisLevel = 9999;
         }
 
-        // BENARKAN BARIS INI: Reset jumlah musuh yang SUDAH dikalahkan, bukan target untuk menang.
-        enemiesKilled = 0; // Reset hitungan musuh yang sudah dikalahkan untuk level baru
+        enemiesKilledThisLevel = 0;
+        Debug.Log("Memulai Level: " + (currentLevelIndex + 1) + " (" + SceneManager.GetActiveScene().name + "). Target Musuh: " + enemiesToWinThisLevel);
 
-        Debug.Log("Memulai Level: " + (currentLevelIndex + 1) + ". Target Musuh: " + enemiesToWin + " (Musuh dikalahkan: " + enemiesKilled + ")");
-
-        // Inisialisasi sistem lain (mengambil dari bagian bawah skrip Anda yang tidak di-comment)
         if (health != null) health.Init();
-        else if (GetComponent<HealthSystem>() != null) GetComponent<HealthSystem>().Init();
         else Debug.LogError("HealthSystem tidak ditemukan/di-assign pada GameManager!");
 
         if (currency != null) currency.Init();
-        else if (GetComponent<CurrencySystem>() != null) GetComponent<CurrencySystem>().Init();
         else Debug.LogError("CurrencySystem tidak ditemukan/di-assign pada GameManager!");
 
+        if (backgroundMusicPlayer != null && !backgroundMusicPlayer.isPlaying)
+        {
+            backgroundMusicPlayer.Play();
+        }
+
         StartCoroutine(WaveStartDelay());
+        UpdateNuclearBombButtonInteractable();
+    }
+
+    void Update()
+    {
+        UpdateNuclearBombButtonInteractable();
     }
 
     IEnumerator WaveStartDelay()
     {
         yield return new WaitForSeconds(2f);
-
-        // Memulai spawning musuh
-        // Pastikan referensi ke Spawner benar.
-        // Jika 'spawner' (field publik) adalah EnemySpawner yang Anda maksud dan sudah di-assign:
-        if (EnemySpawner.instance != null) // Mengasumsikan 'Spawner' adalah base class atau interface, dan Anda perlu EnemySpawner
+        if (EnemySpawner.instance != null)
         {
             EnemySpawner.instance.StartSpawning();
         }
         else
         {
-            Debug.LogError("EnemySpawner tidak ditemukan");
+            Debug.LogError("EnemySpawner.instance tidak ditemukan! Tidak bisa memulai spawning musuh.");
         }
     }
 
-    // --- METHOD UNTUK KONDISI MENANG ---
-
-    // Method ini akan dipanggil dari Enemy.cs setiap kali musuh dikalahkan
     public void RegisterEnemyKilled()
     {
-        enemiesKilled++;
-        Debug.Log("Musuh dikalahkan! Total dikalahkan: " + enemiesKilled + " / " + enemiesToWin);
+        if (winPanel != null && winPanel.activeSelf) return;
 
-        if (enemiesKilled >= enemiesToWin)
+        enemiesKilledThisLevel++;
+        if (enemiesKilledThisLevel >= enemiesToWinThisLevel)
         {
             TriggerWinCondition();
         }
@@ -127,85 +142,129 @@ public class GameManager : MonoBehaviour
 
     void TriggerWinCondition()
     {
+        if (winPanel != null && winPanel.activeSelf) return;
+
         Debug.Log("LEVEL " + (currentLevelIndex + 1) + " SELESAI!");
-        Time.timeScale = 0f; // Hentikan permainan
+        Time.timeScale = 0f;
 
-        // --- HENTIKAN MUSIK LATAR ---
-        if (backgroundMusicPlayer != null)
-        {
-            backgroundMusicPlayer.Stop();
-            Debug.Log("Musik latar dihentikan.");
-        }
-        else
-        {
-            Debug.LogWarning("Referensi 'backgroundMusicPlayer' (AudioSource) belum di-assign di GameManager. Tidak bisa menghentikan musik latar.");
-        }
-        // -----------------------------
-
-        // --- MAINKAN EFEK SUARA KEMENANGAN ---
-        if (sfxAudioSource != null && winSoundEffect != null)
-        {
-            sfxAudioSource.PlayOneShot(winSoundEffect);
-        }
-        else
-        {
-            if (sfxAudioSource == null) Debug.LogWarning("sfxAudioSource pada GameManager tidak ditemukan untuk memainkan suara kemenangan.");
-            if (winSoundEffect == null) Debug.LogWarning("AudioClip 'winSoundEffect' belum di-assign di GameManager Inspector.");
-        }
-        // -----------------------------------
-
-        // Tampilkan panel kemenangan
-        if (winPanel != null)
-        {
-            winPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("Win Panel belum di-assign di GameManager Inspector!");
-        }
-
-        // Hentikan spawning musuh
-        if (EnemySpawner.instance != null)
-        {
-            EnemySpawner.instance.StopSpawning(); // Pastikan method ini ada di EnemySpawner.cs
-        }
-        else
-        {
-            Debug.LogError("EnemySpawner.instance tidak ditemukan untuk menghentikan spawning!");
-        }
+        if (backgroundMusicPlayer != null) backgroundMusicPlayer.Stop();
+        if (sfxAudioSource != null && winSoundEffect != null) sfxAudioSource.PlayOneShot(winSoundEffect);
+        if (winPanel != null) winPanel.SetActive(true);
+        else Debug.LogWarning("Win Panel belum di-assign!");
+        if (EnemySpawner.instance != null) EnemySpawner.instance.StopSpawning();
     }
+
+    public void TriggerLoseCondition()
+    {
+        if (gameOverPanel != null && gameOverPanel.activeSelf) return;
+        if (winPanel != null && winPanel.activeSelf) return;
+
+        Debug.Log("GAME OVER!");
+        Time.timeScale = 0f;
+
+        if (backgroundMusicPlayer != null) backgroundMusicPlayer.Stop();
+        if (sfxAudioSource != null && loseSoundEffect != null) sfxAudioSource.PlayOneShot(loseSoundEffect);
+        if (gameOverPanel != null) gameOverPanel.SetActive(true);
+        else Debug.LogWarning("GameOver Panel belum di-assign!");
+        if (EnemySpawner.instance != null) EnemySpawner.instance.StopSpawning();
+    }
+
     public void GoToNextLevel()
     {
-        Time.timeScale = 1f; // Selalu kembalikan Time.timeScale sebelum pindah scene
+        Time.timeScale = 1f;
         currentLevelIndex++;
         if (currentLevelIndex < levelSceneNames.Length)
         {
             PlayerPrefs.SetInt("CurrentLevelIndex", currentLevelIndex);
-            PlayerPrefs.Save(); // Simpan perubahan PlayerPrefs
+            PlayerPrefs.Save();
             SceneManager.LoadScene(levelSceneNames[currentLevelIndex]);
         }
         else
         {
-            Debug.Log("Semua level telah selesai! Kembali ke Menu Utama.");
-            // Mungkin ada layar "Game Tamat" sebelum ke menu utama
-            GoToMainMenu(); // Kembali ke menu jika sudah level terakhir
+            Debug.Log("Semua level selesai! Kembali ke Menu.");
+            SceneManager.LoadScene("Menu");
         }
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-        PlayerPrefs.SetInt("CurrentLevelIndex", 0); // Reset ke level 1 untuk sesi berikutnya
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("Menu"); // Ganti "MainMenu" dengan nama scene menu utama Anda
+        SceneManager.LoadScene("Menu");
     }
 
-
-    // Opsional: Method untuk mereset hitungan jika ada fitur restart level
-    public void ResetKills()
+    // --- Logika Bom Nuklir ---
+    void UpdateNuclearBombButtonInteractable()
     {
-        enemiesKilled = 0;
-        // Mungkin juga reset state lain jika perlu
+        if (nuclearBombButton != null && currency != null)
+        {
+            nuclearBombButton.interactable = (Time.timeScale > 0f) && currency.EnoughCurrency(nuclearBombCost);
+        }
     }
 
+    public void TryActivateNuclearBomb()
+    {
+        if (currency != null && currency.Use(nuclearBombCost))
+        {
+            StartCoroutine(ActivateNuclearBombSequence());
+        }
+        else
+        {
+            Debug.Log("Not enough gold for Nuclear Bomb!");
+        }
+    }
+
+    private IEnumerator ActivateNuclearBombSequence()
+    {
+        if (nuclearBombButton != null) nuclearBombButton.interactable = false;
+
+        // Mainkan efek visual ledakan sprite sheet di lokasi tertentu
+        if (nuclearExplosionAnimationPrefab != null && nuclearExplosionSpawnPoint != null)
+        {
+            Instantiate(nuclearExplosionAnimationPrefab, nuclearExplosionSpawnPoint.position, Quaternion.identity);
+        }
+        else if (nuclearExplosionAnimationPrefab != null)
+        {
+            Debug.LogWarning("NuclearExplosionSpawnPoint tidak di-set, ledakan muncul di (0,0,0).");
+            Instantiate(nuclearExplosionAnimationPrefab, Vector3.zero, Quaternion.identity);
+        }
+
+        // Mainkan efek visual screen flash tambahan (jika ada)
+        // if (screenFlashAnimator != null) // << BAGIAN INI DIHAPUS/DIKOMENTARI
+        // {
+        //     screenFlashAnimator.SetTrigger("Explode"); 
+        // }
+
+        // Mainkan suara ledakan
+        if (sfxAudioSource != null && nuclearExplosionSound != null)
+        {
+            sfxAudioSource.PlayOneShot(nuclearExplosionSound);
+        }
+
+        // Guncangkan Kamera
+        if (CameraShake.instance != null)
+        {
+            CameraShake.instance.StartShake(0.5f, 0.1f); // Sesuaikan durasi dan kekuatan
+        }
+
+        // Hancurkan semua musuh
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemyObject in allEnemies)
+        {
+            if (enemyObject != null)
+            {
+                Enemy enemyScript = enemyObject.GetComponent<Enemy>();
+                if (enemyScript != null)
+                {
+                    enemyScript.LoseHealth(9999999);
+                }
+            }
+        }
+        yield return null;
+    }
 }

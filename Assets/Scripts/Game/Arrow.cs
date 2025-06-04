@@ -29,42 +29,32 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        // Gerakan lurus ke depan berdasarkan rotasi awal
-        // (transform.right mengacu pada sumbu X lokal, yang seharusnya menjadi arah "depan" panah setelah dirotasi)
         transform.Translate(transform.right * speed * Time.deltaTime, Space.World);
 
-        // Anda bisa menambahkan logika untuk menghancurkan panah jika keluar batas layar
-        // Misalnya dengan trigger "OutOfBounds" seperti di skrip ShootItem Anda sebelumnya.
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            // Opsional: Cek jika collider musuh ini sudah pernah kena oleh panah ini
-            // if (alreadyHitColliders.Contains(other))
-            // {
-            //     return; // Sudah kena, abaikan
-            // }
+
 
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
                 Debug.Log($"Arrow hit {enemy.name}, damage: {damage}, hitCount before this: {hitCount}");
-                enemy.LoseHealth(damage); // Asumsi Enemy.cs punya metode LoseHealth(int amount)
-                // alreadyHitColliders.Add(other); // Tandai sudah kena
+                enemy.LoseHealth(damage);
 
                 hitCount++;
 
                 if (hitCount >= MAX_ENEMIES_TO_HIT)
                 {
-                    Destroy(gameObject); // Hancur setelah mengenai jumlah musuh maksimum
+                    Destroy(gameObject);
                 }
-                // Jika belum mencapai MAX_ENEMIES_TO_HIT, panah akan terus melaju (efek tembus)
             }
         }
-        // Hancurkan panah jika mengenai objek lain yang bukan musuh (misalnya tembok atau batas)
-        else if (other.CompareTag("Out") || other.CompareTag("Obstacle")) // Sesuaikan dengan tag Anda
+
+        else if (other.CompareTag("Out") || other.CompareTag("Obstacle")) 
         {
             Destroy(gameObject);
         }
