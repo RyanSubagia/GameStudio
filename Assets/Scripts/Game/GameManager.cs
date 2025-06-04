@@ -243,7 +243,8 @@ public class GameManager : MonoBehaviour
         // Mainkan suara ledakan
         if (sfxAudioSource != null && nuclearExplosionSound != null)
         {
-            sfxAudioSource.PlayOneShot(nuclearExplosionSound);
+            float explosionVolumeScale = 3.0f;
+            sfxAudioSource.PlayOneShot(nuclearExplosionSound, explosionVolumeScale);
         }
 
         // Guncangkan Kamera
