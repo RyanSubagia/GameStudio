@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1574,6 +1573,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2594,7 +2594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &846592792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3866,7 +3866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1249018751
 Transform:
   m_ObjectHideFlags: 0
@@ -3908,7 +3908,7 @@ MonoBehaviour:
   previousButton: {fileID: 1419765704}
   nextButton: {fileID: 21833311}
   pageIndicatorText: {fileID: 1171677410}
-  pageTurnSound: {fileID: 8300000, guid: 8e2aae04dffaab64688f289cbcea9316, type: 3}
+  pageTurnSound: {fileID: 8300000, guid: 665e3affd986ceb4c86676513bb805e8, type: 3}
 --- !u!82 &1249018754
 AudioSource:
   m_ObjectHideFlags: 0
