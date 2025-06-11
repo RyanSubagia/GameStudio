@@ -5680,7 +5680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &828213739
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5697,10 +5697,10 @@ RectTransform:
   m_Father: {fileID: 1850811694}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.53, y: -49.7585}
-  m_SizeDelta: {x: 133.06, y: 99.517}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &828213740
 MonoBehaviour:
@@ -5751,7 +5751,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 99a0008373796924ba339b12f69d1df6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e121f62643ccd0449c5b101e13b5b1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7984,7 +7984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towersPrefabs:
-  - {fileID: 4264958866763677808, guid: 3e8bb88b3c4b78c44bceb51f5997465a, type: 3}
+  - {fileID: 2682270256390265013, guid: 4379eade7d5a5df4884a5dee05e7fd5b, type: 3}
   - {fileID: 1411804659960363519, guid: 731a2bfde9740a04b91c4432fae59353, type: 3}
   - {fileID: 1411804659960363519, guid: 89737952f875e7143a05619e3c9824b1, type: 3}
   spawnTowerRoot: {fileID: 1302332123}
@@ -8021,7 +8021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_healthCount: {fileID: 258132261}
-  defaultHealthCount: 1
+  defaultHealthCount: 5
   healthCount: 0
   txtTitle: {fileID: 0}
   gameOverCanvas: {fileID: 130506872}
@@ -8070,7 +8070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_Currency: {fileID: 1753313002}
-  defaultCurrency: 50
+  defaultCurrency: 10
   currency: 0
 --- !u!114 &1669589387
 MonoBehaviour:

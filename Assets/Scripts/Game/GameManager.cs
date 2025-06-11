@@ -223,7 +223,6 @@ public class GameManager : MonoBehaviour
     {
         if (nuclearBombButton != null) nuclearBombButton.interactable = false;
 
-        // Mainkan efek visual ledakan sprite sheet di lokasi tertentu
         if (nuclearExplosionAnimationPrefab != null && nuclearExplosionSpawnPoint != null)
         {
             Instantiate(nuclearExplosionAnimationPrefab, nuclearExplosionSpawnPoint.position, Quaternion.identity);
@@ -234,26 +233,18 @@ public class GameManager : MonoBehaviour
             Instantiate(nuclearExplosionAnimationPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        // Mainkan efek visual screen flash tambahan (jika ada)
-        // if (screenFlashAnimator != null) // << BAGIAN INI DIHAPUS/DIKOMENTARI
-        // {
-        //     screenFlashAnimator.SetTrigger("Explode"); 
-        // }
 
-        // Mainkan suara ledakan
         if (sfxAudioSource != null && nuclearExplosionSound != null)
         {
             float explosionVolumeScale = 3.0f;
             sfxAudioSource.PlayOneShot(nuclearExplosionSound, explosionVolumeScale);
         }
 
-        // Guncangkan Kamera
         if (CameraShake.instance != null)
         {
-            CameraShake.instance.StartShake(0.5f, 0.1f); // Sesuaikan durasi dan kekuatan
+            CameraShake.instance.StartShake(0.5f, 0.1f);
         }
 
-        // Hancurkan semua musuh
         GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemyObject in allEnemies)
         {
