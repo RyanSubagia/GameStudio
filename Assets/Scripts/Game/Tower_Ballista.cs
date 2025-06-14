@@ -2,12 +2,17 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(AudioSource))]
 public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
 {
     public int arrowDamage; // Damage lebih rendah dari cannon
     public GameObject prefab_Arrow; // Prefab untuk panah
     public float interval; // Interval menembak ballista
     public Transform shootPoint; // Titik keluar panah
+
+    public AudioClip fireSound; // Slot untuk file audio tembakan cannon
+    private AudioSource audioSource; // Referensi ke komponen AudioSource
+    public float fireSoundVolume = 0.8f;
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
     private bool isShooting = false;
@@ -21,6 +26,15 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
         if (ballistaAnimator == null)
         {
             Debug.LogError("Animator component not found on Tower_Ballista!", this.gameObject);
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            // --- ATUR VOLUME DARI SCRIPT DI SINI ---
+            audioSource.playOnAwake = false; // Pastikan tidak play otomatis
+            audioSource.volume = fireSoundVolume; // Atur volume AudioSource sesuai nilai yang kita tentukan
+            // ------------------------------------
         }
     }
 
@@ -84,6 +98,11 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
     // METODE INI AKAN DIPANGGIL OLEH ANIMATION EVENT DARI ANIMASI BALLISTA
     public void FireArrowFromAnimationEvent()
     {
+        if (audioSource != null && fireSound != null)
+        {
+            audioSource.PlayOneShot(fireSound);
+        }
+
         if (currentTargetForArrowAnimation == null || !currentTargetForArrowAnimation.gameObject.activeInHierarchy)
         {
             Debug.LogWarning("Ballista: Target for animation event is null or inactive. Arrow not fired.");

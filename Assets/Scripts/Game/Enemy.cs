@@ -16,7 +16,13 @@ public class Enemy : MonoBehaviour
 
     [Header("Animation Settings")]
     public bool hasDieAnimation = false; 
-    public float dieAnimationDuration = 2f; 
+    public float dieAnimationDuration = 2f;
+    public AudioClip dieSound;
+    public float dieSoundVolume = 5f;
+
+    public AudioClip attackSound; // Assign suara serangan di Inspector
+    private AudioSource audioSource; // Referensi ke AudioSource
+    public float attackSoundVolume = 5f;
 
     private Animator animator;
     Coroutine attackOrder;
@@ -25,6 +31,12 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            audioSource.playOnAwake = false;
+        }
     }
 
     public void InitializeStatsForLevel(int levelIndex)
@@ -61,6 +73,12 @@ public class Enemy : MonoBehaviour
     public void InflictDamage()
     {
         if (detectedTower == null || health <= 0) return;
+
+        if (audioSource != null && attackSound != null)
+        {
+            audioSource.PlayOneShot(attackSound, attackSoundVolume);
+        }
+
         bool towerDied = detectedTower.LoseHealth(attackPower);
         if (towerDied)
         {
@@ -98,6 +116,11 @@ public class Enemy : MonoBehaviour
         {
             GameManager.instance.currency.Gain(currencyDropAmount);
             GameManager.instance.RegisterEnemyKilled();
+        }
+
+        if (dieSound != null)
+        {
+            AudioSource.PlayClipAtPoint(dieSound, transform.position, dieSoundVolume);
         }
 
         if (hasDieAnimation && animator != null)

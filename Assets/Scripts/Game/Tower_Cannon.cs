@@ -2,12 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(AudioSource))]
 public class Tower_Cannon : Tower
 {
     public int damage;
     public GameObject prefab_shootItem;
     public float interval;
     public Transform shootPoint;
+
+    public AudioClip fireSound; // Slot untuk file audio tembakan cannon
+    private AudioSource audioSource; // Referensi ke komponen AudioSource
+    public float fireSoundVolume = 0.8f;
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
     private bool isShooting = false;
@@ -18,6 +23,15 @@ public class Tower_Cannon : Tower
     {
         base.Start();
         cannonAnimator = GetComponent<Animator>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            // --- ATUR VOLUME DARI SCRIPT DI SINI ---
+            audioSource.playOnAwake = false; // Pastikan tidak play otomatis
+            audioSource.volume = fireSoundVolume; // Atur volume AudioSource sesuai nilai yang kita tentukan
+            // ------------------------------------
+        }
     }
 
     void Update()
@@ -82,6 +96,11 @@ public class Tower_Cannon : Tower
 
     public void FireProjectileFromAnimationEvent()
     {
+        if (audioSource != null && fireSound != null)
+        {
+            audioSource.PlayOneShot(fireSound);
+        }
+
         if (currentTargetForAnimation == null || !currentTargetForAnimation.gameObject.activeInHierarchy)
         {
             Debug.LogWarning("FireProjectileFromAnimationEvent: Target for animation event is null or inactive. Projectile not fired.");

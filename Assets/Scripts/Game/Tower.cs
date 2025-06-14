@@ -8,6 +8,9 @@ public class Tower : MonoBehaviour
     public int cost;
     private Vector3Int cellPosition;
 
+    public AudioClip destructionSound; // Assign suara ledakan/kehancuran di Inspector
+    public float destructionSoundVolume = 3f;
+
 
     protected virtual void Start()
     {
@@ -37,6 +40,12 @@ public class Tower : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log("Tower is dead");
+
+        if (destructionSound != null)
+        {
+            AudioSource.PlayClipAtPoint(destructionSound, transform.position, destructionSoundVolume);
+        }
+
         FindObjectOfType<Spawner>().RevertCellState(cellPosition);
         Destroy(gameObject);
     }

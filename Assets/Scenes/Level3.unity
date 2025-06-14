@@ -4715,8 +4715,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.06189, y: -99.88069}
-  m_SizeDelta: {x: -669.0214, y: -370.0732}
+  m_AnchoredPosition: {x: -80.723, y: -244.241}
+  m_SizeDelta: {x: -812.343, y: -658.793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &204491864
 MonoBehaviour:
@@ -4928,7 +4928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.52, y: 0}
+  m_AnchoredPosition: {x: -5.24, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &260485658
@@ -5621,8 +5621,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -290, y: -210}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_SizeDelta: {x: -468.633, y: -534.031}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &784778634
 MonoBehaviour:
@@ -6761,7 +6761,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f47c59f85e197d04aa62a1d3ae48f8ce, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7022,11 +7022,11 @@ RectTransform:
   m_Father: {fileID: 1986496556}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -58.93, y: 191.21}
-  m_SizeDelta: {x: 117.86, y: 67.491}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 114, y: -26}
+  m_SizeDelta: {x: 118.859985, y: 67.491}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1240527603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7675,7 +7675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.2, y: 0.15}
-  m_AnchoredPosition: {x: 141.06999, y: 382.4999}
+  m_AnchoredPosition: {x: 299.87, y: 651.2529}
   m_SizeDelta: {x: -37.86, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1487030760
@@ -7713,7 +7713,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.85}
   m_AnchorMax: {x: 0.2, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 114, y: -2.0970154}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1626848536
@@ -8023,8 +8023,7 @@ MonoBehaviour:
   txt_healthCount: {fileID: 258132261}
   defaultHealthCount: 5
   healthCount: 0
-  txtTitle: {fileID: 0}
-  gameOverCanvas: {fileID: 130506872}
+  baseDamageSound: {fileID: 8300000, guid: b37c813144620c8459698e92fc214b94, type: 3}
 --- !u!114 &1669589385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8046,9 +8045,9 @@ MonoBehaviour:
   - Level2
   - Level3
   winPanel: {fileID: 784778632}
-  gameOverPanel: {fileID: 0}
+  gameOverPanel: {fileID: 130506872}
   winSoundEffect: {fileID: 8300000, guid: efb006ae8fac533479d359ce0c458098, type: 3}
-  loseSoundEffect: {fileID: 0}
+  loseSoundEffect: {fileID: 8300000, guid: fdc4d16cdbb4554488db1c3f7232562b, type: 3}
   nuclearExplosionSound: {fileID: 8300000, guid: 5e832d87a867daf4480019e90b504ff5,
     type: 3}
   backgroundMusicPlayer: {fileID: 1152407031}
@@ -8093,7 +8092,7 @@ MonoBehaviour:
   - {fileID: 1013829115}
   - {fileID: 974837964}
   - {fileID: 548557179}
-  spawnInterval: 2
+  spawnInterval: 4
   spawnIntervalsPerLevel:
   - 2
   - 1.5
@@ -8954,11 +8953,11 @@ RectTransform:
   m_Father: {fileID: 1986496556}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.15}
-  m_AnchorMax: {x: 0.1, y: 0.85}
-  m_AnchoredPosition: {x: 93.06, y: -167.70001}
-  m_SizeDelta: {x: 186.12, y: -215.41}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.28500003, y: 0.15}
+  m_AnchoredPosition: {x: 91.6, y: 0}
+  m_SizeDelta: {x: 33.609, y: 21.285}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1850811696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9209,7 +9208,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 450}
+  m_ReferenceResolution: {x: 1024, y: 768}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
