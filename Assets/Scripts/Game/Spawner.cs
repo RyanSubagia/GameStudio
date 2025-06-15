@@ -18,6 +18,10 @@ public class Spawner : MonoBehaviour
     //Tile position
     private Vector3Int tilePos;
 
+    public AudioClip buildSound; 
+    private AudioSource audioSource;
+    public float buildSoundVolume = 0.8f;
+
     void Update()
     {
         if (CanSpawn())
@@ -78,6 +82,11 @@ public class Spawner : MonoBehaviour
 
     void SpawnTower(Vector3 position, Vector3Int cellPosition)
     {
+        if (buildSound != null)
+        {
+            AudioSource.PlayClipAtPoint(buildSound, position, buildSoundVolume);
+        }
+
         GameObject tower = Instantiate(towersPrefabs[spawnID], spawnTowerRoot);
         tower.transform.position = position;
         tower.GetComponent<Tower>().Init(cellPosition);

@@ -103,6 +103,8 @@ MonoBehaviour:
   cost: 3
   destructionSound: {fileID: 8300000, guid: d1e7d32453039b74bbbbe703d8ca03ad, type: 3}
   destructionSoundVolume: 3
+  sellSound: {fileID: 8300000, guid: 001813d229e9a6e4f823d08a221cad23, type: 3}
+  sellSoundVolume: 3
 --- !u!50 &-4303610250490811203
 Rigidbody2D:
   serializedVersion: 4

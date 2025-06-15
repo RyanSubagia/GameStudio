@@ -8,9 +8,11 @@ public class Tower : MonoBehaviour
     public int cost;
     private Vector3Int cellPosition;
 
-    public AudioClip destructionSound; // Assign suara ledakan/kehancuran di Inspector
+    public AudioClip destructionSound;
     public float destructionSoundVolume = 3f;
 
+    public AudioClip sellSound;
+    public float sellSoundVolume = 3f;
 
     protected virtual void Start()
     {
@@ -58,6 +60,10 @@ public class Tower : MonoBehaviour
     //Sell
     public void Sell()
     {
+        if (sellSound != null)
+        {
+            AudioSource.PlayClipAtPoint(sellSound, transform.position, sellSoundVolume);
+        }
         Debug.Log("Tower sold!");
         GameManager.instance.currency.Gain(cost / 2);
         FindObjectOfType<Spawner>().RevertCellState(cellPosition);

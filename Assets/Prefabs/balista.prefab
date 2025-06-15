@@ -212,6 +212,8 @@ MonoBehaviour:
   cost: 5
   destructionSound: {fileID: 8300000, guid: d1e7d32453039b74bbbbe703d8ca03ad, type: 3}
   destructionSoundVolume: 2
+  sellSound: {fileID: 8300000, guid: 001813d229e9a6e4f823d08a221cad23, type: 3}
+  sellSoundVolume: 3
   arrowDamage: 1
   prefab_Arrow: {fileID: 1282590824706437793, guid: a4ae5901c0bbf1a49ad5ece34d01201e,
     type: 3}
