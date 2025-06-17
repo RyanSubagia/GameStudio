@@ -5971,8 +5971,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -468.633, y: -534.031}
+  m_AnchoredPosition: {x: 0, y: -13.467987}
+  m_SizeDelta: {x: -468.633, y: -343.6907}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &784778634
 MonoBehaviour:
@@ -7911,6 +7911,7 @@ GameObject:
   - component: {fileID: 1669589386}
   - component: {fileID: 1669589388}
   - component: {fileID: 1669589389}
+  - component: {fileID: 1669589390}
   m_Layer: 0
   m_Name: _Scripts
   m_TagString: Untagged
@@ -8001,7 +8002,7 @@ MonoBehaviour:
     type: 3}
   backgroundMusicPlayer: {fileID: 1152407031}
   nuclearBombButton: {fileID: 1240527603}
-  nuclearBombCost: 20
+  nuclearBombCost: 21
   nuclearExplosionAnimationPrefab: {fileID: 1802456839252239100, guid: bd639e800785c0140b7f9ff3b18ff4e4,
     type: 3}
   nuclearExplosionSpawnPoint: {fileID: 1157582775}
@@ -8156,6 +8157,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1669589390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669589381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc50ec0ff7614643b37509446c50c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1674466936
 GameObject:
   m_ObjectHideFlags: 0

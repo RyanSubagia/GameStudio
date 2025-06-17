@@ -104,7 +104,7 @@ MonoBehaviour:
   baseHealth: 4
   baseAttackPower: 2
   baseMoveSpeed: 0.5
-  baseCurrencyDropAmount: 5
+  baseCurrencyDropAmount: 2
   health: 2
   attackPower: 1
   moveSpeed: 0.6

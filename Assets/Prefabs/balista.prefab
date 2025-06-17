@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652140142e9dbb84986f716b7e01fce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
+  health: 5
   cost: 5
   destructionSound: {fileID: 8300000, guid: d1e7d32453039b74bbbbe703d8ca03ad, type: 3}
   destructionSoundVolume: 2

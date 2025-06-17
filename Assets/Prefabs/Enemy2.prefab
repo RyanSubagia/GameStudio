@@ -103,11 +103,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHealth: 8
   baseAttackPower: 2
-  baseMoveSpeed: 0.5
+  baseMoveSpeed: 0.2
   baseCurrencyDropAmount: 5
   health: 3
-  attackPower: 2
-  moveSpeed: 0.3
+  attackPower: 1
+  moveSpeed: 0.2
   currencyDropAmount: 0
   attackInterval: 3
   hasDieAnimation: 0

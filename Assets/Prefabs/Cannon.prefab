@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590cea659cf4b2c41a431e392f1879bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
+  health: 5
   cost: 4
   destructionSound: {fileID: 8300000, guid: d1e7d32453039b74bbbbe703d8ca03ad, type: 3}
   destructionSoundVolume: 2

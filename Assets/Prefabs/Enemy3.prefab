@@ -103,13 +103,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHealth: 4
   baseAttackPower: 2
-  baseMoveSpeed: 0.5
-  baseCurrencyDropAmount: 5
+  baseMoveSpeed: 0.6
+  baseCurrencyDropAmount: 3
   health: 2
   attackPower: 1
   moveSpeed: 0.6
   currencyDropAmount: 0
-  attackInterval: 1.5
+  attackInterval: 1
   hasDieAnimation: 0
   dieAnimationDuration: 2
   dieSound: {fileID: 8300000, guid: c84953d4a128578459f8ccafa2dd6b08, type: 3}
