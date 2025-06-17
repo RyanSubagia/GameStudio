@@ -7970,7 +7970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_healthCount: {fileID: 258132261}
-  defaultHealthCount: 5
+  defaultHealthCount: 10
   healthCount: 0
   baseDamageSound: {fileID: 8300000, guid: b37c813144620c8459698e92fc214b94, type: 3}
 --- !u!114 &1669589385
@@ -8018,7 +8018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_Currency: {fileID: 1753313002}
-  defaultCurrency: 10
+  defaultCurrency: 20
   currency: 0
   coinGainSound: {fileID: 8300000, guid: 9f1eef42f0693434287bc9800057108e, type: 3}
   coinGainSoundVolume: 0.8
@@ -9379,9 +9379,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthSystem, Assembly-CSharp
-        m_MethodName: PlayAgain
+      - m_Target: {fileID: 1669589385}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
