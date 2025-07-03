@@ -6,24 +6,18 @@ using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {    
-    //The UI text for the health count
     public Text txt_healthCount;
-    //The default value of the health count (used for init)
     public int defaultHealthCount;
-    //Current health count
     public int healthCount;
-    //[SerializeField] private TMP_Text txtTitle;
-    //[SerializeField] private GameObject gameOverCanvas;
 
-    public AudioClip baseDamageSound; // Assign suara damage di Inspector
-    private AudioSource sfxAudioSource; // Referensi ke AudioSource
+
+    public AudioClip baseDamageSound;
+    private AudioSource sfxAudioSource;
 
     void Awake()
     {
-        // Dapatkan komponen AudioSource yang terpasang pada GameObject yang sama
         sfxAudioSource = GetComponent<AudioSource>();
 
-        // Lakukan konfigurasi untuk AudioSource agar cocok untuk SFX
         if (sfxAudioSource != null)
         {
             sfxAudioSource.playOnAwake = false;
@@ -31,18 +25,15 @@ public class HealthSystem : MonoBehaviour
         }
         else
         {
-            // Seharusnya tidak pernah terjadi jika [RequireComponent] digunakan, tapi ini sebagai pengaman
             Debug.LogError("HealthSystem.cs: Komponen AudioSource tidak ditemukan!", this.gameObject);
         }
     }
-    //Init the health system (reset the health count)
     public void Init()
     {
         healthCount = defaultHealthCount;
         txt_healthCount.text = healthCount.ToString();
     }
 
-    //Lose health count
     public void LoseHealth()
     {
         if (healthCount < 1)
@@ -61,7 +52,6 @@ public class HealthSystem : MonoBehaviour
         CheckHealthCount();
     }
 
-    //Check health count for losing
     void CheckHealthCount()
     {
         if (healthCount < 1)

@@ -27,12 +27,10 @@ public class Menu : MonoBehaviour
 
     private void ActivateCorrectPanel(GameObject panelToActivate)
     {
-        // Nonaktifkan semua panel yang mungkin aktif terlebih dahulu
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (creditsPanel != null) creditsPanel.SetActive(false);
         if (tutorialPanel != null) tutorialPanel.SetActive(false);
 
-        // Kemudian aktifkan panel yang diinginkan
         if (panelToActivate != null)
         {
             panelToActivate.SetActive(true);
@@ -66,7 +64,7 @@ public class Menu : MonoBehaviour
         ActivateCorrectPanel(tutorialPanel);
 
     }
-    public void ShowCreditsPanel() // Nama sebelumnya: OpenCredits
+    public void ShowCreditsPanel() 
     {
         ButtonClickSound();
         ActivateCorrectPanel(creditsPanel);

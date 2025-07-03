@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI; // Diperlukan untuk Button
+using UnityEngine.UI; 
 using UnityEngine.SceneManagement;
-using System.Collections; // Diperlukan untuk IEnumerator
-
+using System.Collections; 
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
@@ -32,14 +31,12 @@ public class GameManager : MonoBehaviour
     public AudioSource backgroundMusicPlayer;
     private AudioSource sfxAudioSource;
 
-    // --- Pengaturan untuk Bom Nuklir ---
     [Header("Nuclear Bomb Settings")]
     public Button nuclearBombButton;
     public int nuclearBombCost = 100;
-    public GameObject nuclearExplosionAnimationPrefab; // Prefab animasi ledakan dari sprite sheet
-    public Transform nuclearExplosionSpawnPoint;   // Titik munculnya animasi ledakan sprite sheet
-    // public Animator screenFlashAnimator;        // << DIHAPUS
-    // ------------------------------------
+    public GameObject nuclearExplosionAnimationPrefab;
+    public Transform nuclearExplosionSpawnPoint;  
+
 
     void Awake()
     {
@@ -198,7 +195,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    // --- Logika Bom Nuklir ---
     void UpdateNuclearBombButtonInteractable()
     {
         if (nuclearBombButton != null && currency != null)

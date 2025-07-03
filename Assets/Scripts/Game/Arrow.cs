@@ -7,23 +7,17 @@ public class Arrow : MonoBehaviour
     private Enemy initialTarget; // Target awal untuk mengarahkan panah
     private int damage;
     private int hitCount = 0;
-    private const int MAX_ENEMIES_TO_HIT = 3; // Akan hancur setelah mengenai musuh ke-3 (menembus 2 musuh)
-
-    // Opsional: Untuk mencegah panah mengenai musuh yang sama berkali-kali jika tembusannya cepat
-    // private List<Collider2D> alreadyHitColliders = new List<Collider2D>();
-
-    // Panggil ini dari Tower_Ballista setelah Instantiate
+    private const int MAX_ENEMIES_TO_HIT = 3; 
     public void Initialize(int dmg, Enemy target)
     {
         this.damage = dmg;
         this.initialTarget = target;
 
-        // Langsung arahkan panah ke target awal jika ada
         if (initialTarget != null)
         {
             Vector3 direction = (initialTarget.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, angle); // Asumsi sprite panah menghadap ke kanan
+            transform.rotation = Quaternion.Euler(0f, 0f, angle); 
         }
     }
 

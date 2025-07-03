@@ -3,25 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(AudioSource))]
-public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
+public class Tower_Ballista : Tower
 {
-    public int arrowDamage; // Damage lebih rendah dari cannon
-    public GameObject prefab_Arrow; // Prefab untuk panah
-    public float interval; // Interval menembak ballista
-    public Transform shootPoint; // Titik keluar panah
+    public int arrowDamage; 
+    public GameObject prefab_Arrow; 
+    public float interval; 
+    public Transform shootPoint; 
 
-    public AudioClip fireSound; // Slot untuk file audio tembakan cannon
-    private AudioSource audioSource; // Referensi ke komponen AudioSource
+    public AudioClip fireSound;
+    private AudioSource audioSource; 
     public float fireSoundVolume = 0.8f;
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
     private bool isShooting = false;
-    private Animator ballistaAnimator; // Animator untuk animasi ballista
-    private Enemy currentTargetForArrowAnimation; // Target untuk Animation Event
+    private Animator ballistaAnimator; 
+    private Enemy currentTargetForArrowAnimation; 
 
     protected override void Start()
     {
-        base.Start(); // Panggil Start dari kelas dasar jika ada
+        base.Start(); 
         ballistaAnimator = GetComponent<Animator>();
         if (ballistaAnimator == null)
         {
@@ -31,10 +31,8 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
         audioSource = GetComponent<AudioSource>();
         if (audioSource != null)
         {
-            // --- ATUR VOLUME DARI SCRIPT DI SINI ---
-            audioSource.playOnAwake = false; // Pastikan tidak play otomatis
-            audioSource.volume = fireSoundVolume; // Atur volume AudioSource sesuai nilai yang kita tentukan
-            // ------------------------------------
+            audioSource.playOnAwake = false; 
+            audioSource.volume = fireSoundVolume;
         }
     }
 
@@ -81,12 +79,11 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
             currentTargetForArrowAnimation = target;
             if (ballistaAnimator != null)
             {
-                ballistaAnimator.SetTrigger("Shoot"); // Gunakan trigger "Shoot" yang sama atau buat baru
+                ballistaAnimator.SetTrigger("Shoot"); 
             }
             else
             {
-                // Fallback jika animator tidak ada, langsung tembak (meski tidak ideal)
-                // FireArrowFromAnimationEvent(); // Hati-hati jika dipanggil langsung tanpa animasi
+ 
             }
         }
         else
@@ -95,7 +92,6 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
         }
     }
 
-    // METODE INI AKAN DIPANGGIL OLEH ANIMATION EVENT DARI ANIMASI BALLISTA
     public void FireArrowFromAnimationEvent()
     {
         if (audioSource != null && fireSound != null)
@@ -133,7 +129,6 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
         }
     }
 
-    // Metode GetNearestEnemy dan RemoveNullEnemies bisa sama persis dengan di Tower_Cannon.cs
     void RemoveNullEnemies()
     {
         enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
@@ -157,10 +152,9 @@ public class Tower_Ballista : Tower // Pastikan Tower.cs adalah kelas dasar Anda
         return nearest;
     }
 
-    // Metode OnTriggerEnter2D dan OnTriggerExit2D juga bisa sama
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy")) // Pastikan tag musuh Anda "Enemy"
+        if (other.CompareTag("Enemy")) 
         {
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null && !enemiesInRange.Contains(enemy))

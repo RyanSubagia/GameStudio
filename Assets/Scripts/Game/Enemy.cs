@@ -20,8 +20,8 @@ public class Enemy : MonoBehaviour
     public AudioClip dieSound;
     public float dieSoundVolume = 5f;
 
-    public AudioClip attackSound; // Assign suara serangan di Inspector
-    private AudioSource audioSource; // Referensi ke AudioSource
+    public AudioClip attackSound; 
+    private AudioSource audioSource;
     public float attackSoundVolume = 5f;
 
     private Animator animator;
