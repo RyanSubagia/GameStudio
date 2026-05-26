@@ -3,8 +3,7 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
-    public static CameraShake instance; // Singleton untuk akses mudah
-
+    public static CameraShake instance; 
     private Vector3 originalPosition;
     private Coroutine currentShakeCoroutine;
 
@@ -16,22 +15,21 @@ public class CameraShake : MonoBehaviour
         }
         else if (instance != this)
         {
-            Destroy(gameObject); // Hancurkan instance duplikat
+            Destroy(gameObject); 
         }
     }
 
     void Start()
     {
-        originalPosition = transform.localPosition; // Simpan posisi awal kamera
+        originalPosition = transform.localPosition;
     }
 
     public void StartShake(float duration, float magnitude)
     {
-        // Hentikan guncangan sebelumnya jika ada
         if (currentShakeCoroutine != null)
         {
             StopCoroutine(currentShakeCoroutine);
-            transform.localPosition = originalPosition; // Kembalikan ke posisi awal dulu
+            transform.localPosition = originalPosition; 
         }
         currentShakeCoroutine = StartCoroutine(Shake(duration, magnitude));
     }
@@ -48,10 +46,10 @@ public class CameraShake : MonoBehaviour
             transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
 
             elapsed += Time.deltaTime;
-            yield return null; // Tunggu frame berikutnya
+            yield return null; 
         }
 
-        transform.localPosition = originalPosition; // Kembalikan kamera ke posisi semula setelah selesai
+        transform.localPosition = originalPosition;
         currentShakeCoroutine = null;
     }
 }
